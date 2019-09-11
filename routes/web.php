@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', 'WelcomeController@show');
+// Route::get('/', 'WelcomeController@show');
 
-Route::get('/home', 'HomeController@show');
+// Route::get('/home', 'HomeController@show');
+
+Route::get('/{any}', 'SpaController@index')->where('any', '.*');
