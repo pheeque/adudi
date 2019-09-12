@@ -20,6 +20,10 @@ Route::group([
     ], function () {
         Route::post('/tasks', 'TasksController@store')->name('store');
     });
+
+    Route::get('/tasks/month/{month}', 'TasksOfMonthController')->name('tasks-of-month');
+    Route::get('/tasks/day/{day}', 'TasksOfDayController')->name('tasks-of-day');
+
 });
 
 Route::namespace ('Api')->group(function () {

@@ -17,14 +17,5 @@
         return new Date(this.year, this.month, 0).getDate()
       }
     },
-    data() {
-      return {
-        
-      }
-    },
-
-    methods: {
-      //
-    },
   }
 </script>

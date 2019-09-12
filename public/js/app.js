@@ -6580,10 +6580,19 @@ function mergeFn (a, b) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ant-design-vue/lib/progress */ "./node_modules/ant-design-vue/lib/progress/index.js");
-/* harmony import */ var ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var ant_design_vue_lib_progress_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ant-design-vue/lib/progress/style/css */ "./node_modules/ant-design-vue/lib/progress/style/css.js");
-/* harmony import */ var ant_design_vue_lib_progress_style_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_progress_style_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _api_schedule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/schedule */ "./resources/js/api/schedule.js");
+/* harmony import */ var ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ant-design-vue/lib/progress */ "./node_modules/ant-design-vue/lib/progress/index.js");
+/* harmony import */ var ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var ant_design_vue_lib_progress_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ant-design-vue/lib/progress/style/css */ "./node_modules/ant-design-vue/lib/progress/style/css.js");
+/* harmony import */ var ant_design_vue_lib_progress_style_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_progress_style_css__WEBPACK_IMPORTED_MODULE_2__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 //
 //
 //
@@ -6595,11 +6604,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'a-progress': ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_0___default.a
+    'a-progress': ant_design_vue_lib_progress__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   props: ['day'],
   computed: {
@@ -6611,12 +6624,39 @@ __webpack_require__.r(__webpack_exports__);
     },
     currentDay: function currentDay() {
       return new Date().getDate();
+    },
+    isNextDays: function isNextDays() {
+      return this.day > this.currentDay;
     }
   },
-  data: function data() {
-    return {};
+  created: function created() {
+    this.init();
   },
-  methods: {}
+  data: function data() {
+    return {
+      tasks: null
+    };
+  },
+  methods: {
+    init: function init() {
+      var _this = this;
+
+      _api_schedule__WEBPACK_IMPORTED_MODULE_0__["default"].tasksOfDay(this.date()).then(function (response) {
+        _this.tasks = _toConsumableArray(response.data.data);
+      });
+    },
+    date: function date() {
+      return "".concat(new Date().getFullYear(), "-").concat(new Date().getMonth(), "-").concat(this.day);
+    },
+    percentage: function percentage() {
+      return this.completed() / this.tasks.length * 100;
+    },
+    completed: function completed() {
+      return this.tasks.filter(function (item) {
+        return item.status === 1;
+      }).length;
+    }
+  }
 });
 
 /***/ }),
@@ -6647,11 +6687,6 @@ __webpack_require__.r(__webpack_exports__);
     daysOfMonth: function daysOfMonth() {
       return new Date(this.year, this.month, 0).getDate();
     }
-  },
-  data: function data() {
-    return {};
-  },
-  methods: {//
   }
 });
 
@@ -12310,31 +12345,159 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "flex flex-col justify-between w-32 h-32 m-2 p-2 relative",
-      class: { "bg-red-100": _vm.passedDay, "bg-green-100": _vm.isCurrentDay }
-    },
-    [
-      _c(
-        "span",
+  return _vm.tasks
+    ? _c(
+        "div",
         {
           staticClass:
-            "w-6 h-6 flex justify-center itens-center rounded-full text-xs leading-loose",
-          class: { "bg-blue-500 text-white": _vm.isCurrentDay }
+            "flex flex-col justify-between border rounded hover:shadow cursor-pointer w-32 h-32 m-2 p-2 relative",
+          class: { "border-2 border-blue-500": _vm.isCurrentDay }
         },
-        [_vm._v("\n    " + _vm._s(_vm.day) + "\n  ")]
-      ),
-      _vm._v(" "),
-      _vm.isCurrentDay || _vm.passedDay
-        ? _c("a-progress", {
-            attrs: { type: "circle", percent: 30, width: 40 }
-          })
-        : _vm._e()
-    ],
-    1
-  )
+        [
+          _c(
+            "span",
+            {
+              staticClass:
+                "w-6 h-6 flex justify-center itens-center rounded-full text-xs leading-loose",
+              class: { "bg-blue-500 text-white": _vm.isCurrentDay }
+            },
+            [_vm._v("\n    " + _vm._s(_vm.day) + "\n  ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "absolute flex h-full items-center justify-center left-0 top-0 w-full"
+            },
+            [
+              _vm.isCurrentDay || _vm.passedDay
+                ? _c("a-progress", {
+                    attrs: {
+                      type: "circle",
+                      percent: _vm.percentage(),
+                      width: 40
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isNextDays
+                ? _c(
+                    "svg",
+                    {
+                      staticClass: "h-6",
+                      attrs: {
+                        viewBox: "-11 0 470 470.001",
+                        xmlns: "http://www.w3.org/2000/svg",
+                        "xmlns:xlink": "http://www.w3.org/1999/xlink"
+                      }
+                    },
+                    [
+                      _c(
+                        "linearGradient",
+                        { attrs: { id: "a" } },
+                        [
+                          _c("stop", {
+                            attrs: { offset: ".322", "stop-color": "#a163f5" }
+                          }),
+                          _c("stop", {
+                            attrs: { offset: ".466", "stop-color": "#b074ee" }
+                          }),
+                          _c("stop", {
+                            attrs: { offset: ".752", "stop-color": "#d8a1dd" }
+                          }),
+                          _c("stop", {
+                            attrs: { offset: ".898", "stop-color": "#efbad3" }
+                          })
+                        ],
+                        1
+                      ),
+                      _c("linearGradient", {
+                        attrs: {
+                          id: "b",
+                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
+                          gradientUnits: "userSpaceOnUse",
+                          x1: "369.8",
+                          x2: "369.8",
+                          "xlink:href": "#a",
+                          y1: "18",
+                          y2: "493.052"
+                        }
+                      }),
+                      _c("linearGradient", {
+                        attrs: {
+                          id: "c",
+                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
+                          gradientUnits: "userSpaceOnUse",
+                          x1: "201.2",
+                          x2: "201.2",
+                          "xlink:href": "#a",
+                          y1: "18",
+                          y2: "493.052"
+                        }
+                      }),
+                      _c("linearGradient", {
+                        attrs: {
+                          id: "d",
+                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
+                          gradientUnits: "userSpaceOnUse",
+                          x1: "170.1",
+                          x2: "170.1",
+                          "xlink:href": "#a",
+                          y1: "18",
+                          y2: "493.052"
+                        }
+                      }),
+                      _c("linearGradient", {
+                        attrs: {
+                          id: "e",
+                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
+                          gradientUnits: "userSpaceOnUse",
+                          x1: "255.9",
+                          x2: "255.9",
+                          "xlink:href": "#a",
+                          y1: "18",
+                          y2: "493.052"
+                        }
+                      }),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M390.5 350h-42.8v-42.8c0-5.524-4.477-10-10-10-5.524 0-10 4.476-10 10V350h-42.802c-5.52 0-10 4.477-10 10s4.48 10 10 10H327.7v42.8c0 5.524 4.477 10 10 10 5.524 0 10-4.476 10-10V370H390.5c5.523 0 10-4.477 10-10s-4.477-10-10-10zm0 0",
+                          fill: "url(#b)"
+                        }
+                      }),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M246.602 209.102h-155c-5.524 0-10 4.476-10 10 0 5.52 4.476 10 10 10h155c5.523 0 10-4.48 10-10 0-5.524-4.477-10-10-10zm0 0",
+                          fill: "url(#c)"
+                        }
+                      }),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M184.398 274.102H91.602c-5.524 0-10 4.476-10 10 0 5.52 4.476 10 10 10h92.796c5.524 0 10-4.48 10-10 0-5.524-4.476-10-10-10zm0 0",
+                          fill: "url(#d)"
+                        }
+                      }),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M358 251.898V79.102c-.008-27.614-22.39-49.993-50-50h-41V10c0-5.523-4.477-10-10-10s-10 4.477-10 10v19.102H111V10c0-5.523-4.477-10-10-10S91 4.477 91 10v19.102H50c-27.61.007-49.988 22.386-50 50V350c.012 27.61 22.39 49.988 50 50h185.102c19.242 49.281 70.84 77.887 122.832 68.102 51.992-9.786 89.66-55.196 89.668-108.102.097-53.7-38.602-98.5-89.602-108.102zM20.102 79.102c.046-16.551 13.449-29.954 30-30h41v19.097c0 5.524 4.476 10 10 10 5.523 0 10-4.476 10-10V49.102h136v19.097c0 5.524 4.476 10 10 10 5.523 0 10-4.476 10-10V49.102h41c16.546.046 29.949 13.449 30 30V103.3h-318zM229.5 380H50.102c-16.551-.047-29.954-13.453-30-30V123.2H338V250h-.3a110.164 110.164 0 0 0-108.2 130zm108.2 70c-49.704 0-90-40.293-90-90s40.296-90 90-90c49.706 0 90 40.293 90 90-.075 49.676-40.325 89.926-90 90zm0 0",
+                          fill: "url(#e)"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ]
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -27982,6 +28145,29 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+
+/***/ "./resources/js/api/schedule.js":
+/*!**************************************!*\
+  !*** ./resources/js/api/schedule.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  tasksOfMonth: function tasksOfMonth(month) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks/month/".concat(month));
+  },
+  tasksOfDay: function tasksOfDay(day) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks/day/".concat(day));
+  }
+});
 
 /***/ }),
 
