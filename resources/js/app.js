@@ -13,9 +13,9 @@
  | customize this script as you desire and load your own components.
  |
  */
-require('spark-bootstrap');
+// require('spark-bootstrap');
 
-require('./components/bootstrap');
+// require('./components/bootstrap');
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -69,7 +69,8 @@ const router = new VueRouter({
 });
 
 var app = new Vue({
-    mixins: [require('spark')],
+    // mixins: [require('spark')],
+    el: '#app',
     components: { App },
     router
 });

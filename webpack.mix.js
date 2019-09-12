@@ -1,6 +1,7 @@
 let mix = require('laravel-mix');
 let exec = require('child_process').exec;
 let path = require('path');
+const tailwindcss = require('tailwindcss')
 
 /*
  |--------------------------------------------------------------------------
@@ -15,8 +16,12 @@ let path = require('path');
 
 mix
     .sass('resources/sass/app.scss', 'public/css')
+    .options({
+      processCssUrls: false,
+      postCss: [ tailwindcss('./tailwind.js') ],
+    })
     .js('resources/js/app.js', 'public/js')
-    .copy('node_modules/sweetalert2/dist/sweetalert2.min.js', 'public/js/sweetalert.min.js')
+    // .copy('node_modules/sweetalert2/dist/sweetalert2.min.js', 'public/js/sweetalert.min.js')
     .sass('resources/sass/app-rtl.scss', 'public/css')
     .then(() => {
         exec('node_modules/rtlcss/bin/rtlcss.js public/css/app-rtl.css ./public/css/app-rtl.css');

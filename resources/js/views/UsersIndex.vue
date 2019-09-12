@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  
   const getUsers = (page, callback) => {
     const params = { page }
 

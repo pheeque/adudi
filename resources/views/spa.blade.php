@@ -25,7 +25,7 @@
     </script>
 </head>
 <body>
-    <div id="spark-app">
+    <div id="app">
         <app></app>
     </div>
 
