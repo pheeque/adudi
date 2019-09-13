@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row flex-wrap">
+  <div class="flex flex-row flex-wrap" v-if="tasks">
     <day :day="day" v-for="day in daysOfMonth" :tasks="tasks" :key="day"/>
   </div>
 </template>

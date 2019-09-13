@@ -1,7 +1,7 @@
 <template>
   <a-form layout="inline" @submit.prevent="handleSubmit">
     <a-form-item>
-      <a-input autofocus v-model="task.name" placeholder="Task Name" />
+      <a-input autoFocus v-model="task.name" placeholder="Task Name" />
     </a-form-item>
     <a-form-item>
       <a-button html-type="submit" type="primary">Add</a-button>
@@ -11,7 +11,7 @@
 
 <script>
   import api from '../../api/tasks'
-  import m from 'moment'
+  import { taskFullDueDate } from '../../helpers/date'
 
   export default {
     props: ['day'],
@@ -19,7 +19,7 @@
       return {
         task: {
           name: '',
-          due_date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${this.day} 00:00:00`,
+          due_date: taskFullDueDate(this.day),
           status: false
         }
       }
@@ -29,7 +29,7 @@
       handleSubmit() {
         api.create(this.task)
           .then(response => {
-            console.log(response)
+            // console.log(response)
           })
       }
     },

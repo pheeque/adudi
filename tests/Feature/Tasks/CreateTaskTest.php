@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Tasks;
 
+use App\Events\Tasks\TaskCreated;
 use App\Task;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CreateTaskTest extends TestCase
@@ -24,6 +26,7 @@ class CreateTaskTest extends TestCase
     /** @test */
     public function user_can_create_a_task(): void
     {
+        Event::fake();
         $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $data = factory(Task::class)->make(['user_id' => $user->id])->toArray();
@@ -31,6 +34,10 @@ class CreateTaskTest extends TestCase
             ->post(route('tasks.store'), $data)
             ->assertStatus(201);
         $this->assertDatabaseHas('tasks', $data);
+        Event::assertDispatched(TaskCreated::class, function ($e) use ($data) {
+            $this->assertEquals($e->task->name, $data['name']);
+            return true;
+        });
     }
 
     /** @test */

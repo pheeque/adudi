@@ -85,6 +85,17 @@ Vue.use(Button)
 Vue.use(Icon)
 Vue.use(Checkbox)
 
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'b3e60ed2861d3aa4d03f',
+    cluster: 'ap1',
+    encrypted: true
+});
+
 var app = new Vue({
     // mixins: [require('spark')],
     el: '#app',

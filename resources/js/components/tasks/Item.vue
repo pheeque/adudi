@@ -6,6 +6,8 @@
 
 <script>
   import api from '../../api/tasks'
+  import Bus from '../../bus'
+
   export default {
     props: ['data'],
     created() {
@@ -23,12 +25,12 @@
         if (e.target.checked) {
           api.complete(this.data.id)
             .then(response => {
-              //
+              Bus.$emit('complete', this.item)
             })
         } else {
           api.uncomplete(this.data.id)
             .then(response => {
-              //
+              Bus.$emit('uncomplete', this.item)
             })
         }
       }

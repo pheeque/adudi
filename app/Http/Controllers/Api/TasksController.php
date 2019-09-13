@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\Tasks\TaskCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use App\Task;
@@ -16,11 +17,16 @@ class TasksController extends Controller
             'due_date' => 'required|date',
             'status'   => 'required|boolean',
         ]);
-        return new TaskResource(Task::create([
+
+        $task = Task::create([
             'name'     => $data['name'],
             'due_date' => $data['due_date'],
             'status'   => $data['status'],
             'user_id'  => auth()->user()->id,
-        ]));
+        ]);
+
+        event(new TaskCreated($task));
+
+        return new TaskResource($task);
     }
 }
