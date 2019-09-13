@@ -15496,6 +15496,7 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    dayWithZero: _helpers_date__WEBPACK_IMPORTED_MODULE_3__["dayWithZero"],
     listOfDay: function listOfDay() {
       var _this2 = this;
 
@@ -57610,7 +57611,7 @@ var render = function() {
                 "w-6 h-6 flex justify-center itens-center rounded-full text-xs leading-loose",
               class: { "bg-blue-500 text-white": _vm.isCurrentDay }
             },
-            [_vm._v("\n    " + _vm._s(_vm.day) + "\n  ")]
+            [_vm._v("\n    " + _vm._s(_vm.dayWithZero(_vm.day)) + "\n  ")]
           ),
           _vm._v(" "),
           _c(
@@ -57620,18 +57621,7 @@ var render = function() {
                 "absolute flex h-full items-center justify-center left-0 top-0 w-full"
             },
             [
-              _vm.isCurrentDay || _vm.passedDay
-                ? _c("a-progress", {
-                    attrs: {
-                      type: "circle",
-                      strokeWidth: 10,
-                      percent: _vm.percentage(),
-                      width: 60
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.isNextDays
+              _vm.list.length === 0
                 ? _c(
                     "svg",
                     {
@@ -57741,7 +57731,17 @@ var render = function() {
                     ],
                     1
                   )
-                : _vm._e()
+                : _c("a-progress", {
+                    attrs: {
+                      type: "circle",
+                      strokeWidth: 10,
+                      percent: _vm.percentage(),
+                      width: 60,
+                      format: function(percent) {
+                        return percent === 100 ? "Done" : percent + "%"
+                      }
+                    }
+                  })
             ],
             1
           ),
@@ -57750,7 +57750,7 @@ var render = function() {
             "a-drawer",
             {
               attrs: {
-                title: "Basic Drawer",
+                title: "Daily Tasks",
                 placement: "right",
                 closable: false,
                 visible: _vm.visible
