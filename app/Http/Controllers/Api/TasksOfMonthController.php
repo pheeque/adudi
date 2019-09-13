@@ -10,6 +10,10 @@ class TasksOfMonthController extends Controller
 {
     public function __invoke($month)
     {
-        return TaskResource::collection(Task::whereMonth('due_date', $month)->get());
+        return TaskResource::collection(
+            Task::whereMonth('due_date', $month)
+                ->orderBy('due_date', 'asc')
+                ->get()
+        );
     }
 }

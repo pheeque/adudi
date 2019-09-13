@@ -21,7 +21,7 @@
     components: {
       'a-progress': Progress
     },
-    props: ['day'],
+    props: ['day', 'tasks'],
     computed: {
       isCurrentDay() {
         return this.currentDay === this.day
@@ -34,31 +34,20 @@
       },
       isNextDays() {
         return this.day > this.currentDay
-      }
-    },
-    created() {
-      this.init()
-    },
-    data() {
-      return {
-        tasks: null
+      },
+      tasksOfDay() {
+        return this.tasks.filter(task => this.day === new Date(task.due_date).getDate())
       }
     },
     methods: {
-      init() {
-        api.tasksOfDay(this.date())
-          .then(response => {
-            this.tasks = [...response.data.data]
-          })
-      },
       date() {
         return `${new Date().getFullYear()}-${new Date().getMonth()}-${this.day}`
       },
       percentage() {
-        return this.completed() / this.tasks.length * 100
+        return this.completed() / this.tasksOfDay.length * 100
       },
       completed() {
-        return this.tasks.filter(item => item.status === 1).length
+        return this.tasksOfDay.filter(item => item.status === 1).length
       }
     },
   }
