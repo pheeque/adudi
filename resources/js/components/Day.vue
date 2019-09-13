@@ -17,12 +17,20 @@
       :visible="visible"
     >
       <TaskList :data="tasksOfDay" />
+      <br>
+      <div>
+        <a-button v-if="!open" type="primary" @click.prevent="open = true">
+          <a-icon type="plus" /> New Task
+        </a-button>
+        <new v-if="open" :day="day" />
+      </div>
     </a-drawer>
   </div>
 </template>
 
 <script>
   import api from '../api/schedule'
+  import New from './tasks/New'
   import TaskList from './tasks/List'
   import Progress from 'ant-design-vue/lib/progress'
   import 'ant-design-vue/lib/progress/style/css'
@@ -32,6 +40,7 @@
   export default {
     components: {
       TaskList,
+      New,
       'a-progress': Progress,
       'a-drawer': Drawer,
     },
@@ -55,7 +64,8 @@
     },
     data() {
       return {
-        visible: false
+        visible: false,
+        open: false,
       }
     },
     methods: {

@@ -14,7 +14,7 @@
     props: ['data'],
     data() {
       return {
-        
+        visible: false
       }
     },
 

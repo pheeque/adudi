@@ -68,6 +68,20 @@ const router = new VueRouter({
     ],
 });
 
+import Form from 'ant-design-vue/lib/form'
+import 'ant-design-vue/lib/form/style/css'
+import Input from 'ant-design-vue/lib/input'
+import 'ant-design-vue/lib/input/style/css'
+import Button from 'ant-design-vue/lib/button'
+import 'ant-design-vue/lib/button/style/css'
+import Icon from 'ant-design-vue/lib/icon'
+import 'ant-design-vue/lib/icon/style/css'
+
+Vue.use(Form)
+Vue.use(Input)
+Vue.use(Button)
+Vue.use(Icon)
+
 var app = new Vue({
     // mixins: [require('spark')],
     el: '#app',
