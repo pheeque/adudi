@@ -15545,27 +15545,37 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ant-design-vue/lib/checkbox */ "./node_modules/ant-design-vue/lib/checkbox/index.js");
-/* harmony import */ var ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var ant_design_vue_lib_checkbox_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ant-design-vue/lib/checkbox/style/css */ "./node_modules/ant-design-vue/lib/checkbox/style/css.js");
-/* harmony import */ var ant_design_vue_lib_checkbox_style_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_checkbox_style_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _api_tasks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/tasks */ "./resources/js/api/tasks.js");
 //
 //
 //
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    'a-checkbox': ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_0___default.a
-  },
   props: ['data'],
-  data: function data() {
-    return {};
+  created: function created() {
+    this.item = Object.assign({}, this.data, {
+      status: this.data.status === 1
+    });
   },
-  methods: {}
+  data: function data() {
+    return {
+      item: null
+    };
+  },
+  methods: {
+    onChange: function onChange(e) {
+      if (e.target.checked) {
+        _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"].complete(this.data.id).then(function (response) {//
+        });
+      } else {
+        _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"].uncomplete(this.data.id).then(function (response) {//
+        });
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -65135,9 +65145,14 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("a-checkbox", { attrs: { checked: _vm.data.status === 1 } }, [
-        _vm._v(_vm._s(_vm.data.name))
-      ])
+      _c(
+        "a-checkbox",
+        {
+          attrs: { defaultChecked: _vm.item.status },
+          on: { change: _vm.onChange }
+        },
+        [_vm._v(_vm._s(_vm.item.name))]
+      )
     ],
     1
   )
@@ -80986,6 +81001,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   "delete": function _delete(id, data) {
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/api/tasks/".concat(id));
+  },
+  complete: function complete(id) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/api/tasks/".concat(id, "/complete"));
+  },
+  uncomplete: function uncomplete(id) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/api/tasks/".concat(id, "/uncomplete"));
   }
 });
 
@@ -81059,6 +81080,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ant_design_vue_lib_icon__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_icon__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var ant_design_vue_lib_icon_style_css__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ant-design-vue/lib/icon/style/css */ "./node_modules/ant-design-vue/lib/icon/style/css.js");
 /* harmony import */ var ant_design_vue_lib_icon_style_css__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_icon_style_css__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ant-design-vue/lib/checkbox */ "./node_modules/ant-design-vue/lib/checkbox/index.js");
+/* harmony import */ var ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var ant_design_vue_lib_checkbox_style_css__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ant-design-vue/lib/checkbox/style/css */ "./node_modules/ant-design-vue/lib/checkbox/style/css.js");
+/* harmony import */ var ant_design_vue_lib_checkbox_style_css__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_checkbox_style_css__WEBPACK_IMPORTED_MODULE_19__);
 /*
  |--------------------------------------------------------------------------
  | Laravel Spark Bootstrap
@@ -81129,10 +81154,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
 
 
+
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(ant_design_vue_lib_form__WEBPACK_IMPORTED_MODULE_10___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(ant_design_vue_lib_input__WEBPACK_IMPORTED_MODULE_12___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(ant_design_vue_lib_button__WEBPACK_IMPORTED_MODULE_14___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(ant_design_vue_lib_icon__WEBPACK_IMPORTED_MODULE_16___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(ant_design_vue_lib_checkbox__WEBPACK_IMPORTED_MODULE_18___default.a);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   // mixins: [require('spark')],
   el: '#app',

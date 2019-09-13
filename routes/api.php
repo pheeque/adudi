@@ -19,6 +19,8 @@ Route::group([
         'as' => 'tasks.',
     ], function () {
         Route::post('/tasks', 'TasksController@store')->name('store');
+        Route::patch('/tasks/{id}/complete', 'CompleteTaskController')->name('complete');
+        Route::patch('/tasks/{id}/uncomplete', 'UnCompleteTaskController')->name('uncomplete');
     });
 
     Route::get('/tasks/month/{month}', 'TasksOfMonthController')->name('tasks-of-month');

@@ -16,4 +16,10 @@ export default {
   delete(id, data) {
     return axios.delete(`/api/tasks/${id}`)
   },
+  complete(id) {
+    return axios.patch(`/api/tasks/${id}/complete`)
+  },
+  uncomplete(id) {
+    return axios.patch(`/api/tasks/${id}/uncomplete`)
+  },
 }
