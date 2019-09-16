@@ -1,7 +1,13 @@
 <template>
-  <a-form layout="inline" @submit.prevent="handleSubmit">
+  <a-form :form="task" layout="inline" @submit.prevent="handleSubmit">
     <a-form-item>
-      <a-input autoFocus v-model="task.name" placeholder="Task Name" />
+      <a-input 
+        autoFocus 
+        placeholder="Task Name" 
+        v-decorator="[
+          'name',
+          {rules: [{ required: true, message: 'Please input your task name' }]}
+        ]"/>
     </a-form-item>
     <a-form-item>
       <a-button html-type="submit" type="primary">Add</a-button>
@@ -17,20 +23,23 @@
     props: ['day'],
     data() {
       return {
-        task: {
-          name: '',
-          due_date: taskFullDueDate(this.day),
-          status: false
-        }
+        task: this.$form.createForm(this),
       }
     },
 
     methods: {
       handleSubmit() {
-        api.create(this.task)
-          .then(response => {
-            // console.log(response)
-          })
+        this.task.validateFields((err, values) => {
+          if (!err) {
+            api.create(Object.assign({}, this.task.getFieldsValue(), {
+              due_date: taskFullDueDate(this.day),
+              status: false
+            }))
+              .then(response => {
+                this.task.resetFields()
+              })
+          }
+        })
       }
     },
   }

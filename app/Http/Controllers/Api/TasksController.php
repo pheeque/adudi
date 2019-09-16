@@ -29,4 +29,19 @@ class TasksController extends Controller
 
         return new TaskResource($task);
     }
+
+    public function destroy($id)
+    {
+        return response()->json(Task::findOrFail($id)->delete());
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'sometimes|required',
+        ]);
+        return response()->json(
+            Task::findOrFail($id)->update(request()->all())
+        );
+    }
 }

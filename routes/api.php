@@ -19,6 +19,9 @@ Route::group([
         'as' => 'tasks.',
     ], function () {
         Route::post('/tasks', 'TasksController@store')->name('store');
+        Route::delete('/tasks/{id}', 'TasksController@destroy')->name('destroy');
+        Route::patch('/tasks/{id}', 'TasksController@update')->name('update');
+
         Route::patch('/tasks/{id}/complete', 'CompleteTaskController')->name('complete');
         Route::patch('/tasks/{id}/uncomplete', 'UnCompleteTaskController')->name('uncomplete');
     });

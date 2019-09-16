@@ -15428,6 +15428,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -15492,6 +15493,13 @@ __webpack_require__.r(__webpack_exports__);
         _this.list.splice(index, 1, Object.assign({}, payload, {
           status: 0
         }));
+      }
+    });
+    _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('task-deleted', function (payload) {
+      if (new Date(payload.due_date).getDate() === _this.day) {
+        _this.list = _this.list.filter(function (item) {
+          return item.id !== payload.id;
+        });
       }
     });
   },
@@ -15594,6 +15602,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -15605,20 +15622,43 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      item: null
+      item: null,
+      isEdit: false
     };
   },
   methods: {
-    onChange: function onChange(e) {
+    update: function update() {
       var _this = this;
+
+      _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"].update(this.data.id, Object.assign({}, {
+        name: this.item.name
+      })).then(function (response) {
+        _this.close();
+      });
+    },
+    open: function open() {
+      this.isEdit = true;
+    },
+    close: function close() {
+      this.isEdit = false;
+    },
+    onDelete: function onDelete(e) {
+      var _this2 = this;
+
+      _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"](this.data.id).then(function (response) {
+        _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('task-deleted', _this2.item);
+      });
+    },
+    onChange: function onChange(e) {
+      var _this3 = this;
 
       if (e.target.checked) {
         _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"].complete(this.data.id).then(function (response) {
-          _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('complete', _this.item);
+          _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('complete', _this3.item);
         });
       } else {
         _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"].uncomplete(this.data.id).then(function (response) {
-          _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('uncomplete', _this.item);
+          _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('uncomplete', _this3.item);
         });
       }
     }
@@ -15681,22 +15721,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['day'],
   data: function data() {
     return {
-      task: {
-        name: '',
-        due_date: Object(_helpers_date__WEBPACK_IMPORTED_MODULE_1__["taskFullDueDate"])(this.day),
-        status: false
-      }
+      task: this.$form.createForm(this)
     };
   },
   methods: {
     handleSubmit: function handleSubmit() {
-      _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"].create(this.task).then(function (response) {// console.log(response)
+      var _this = this;
+
+      this.task.validateFields(function (err, values) {
+        if (!err) {
+          _api_tasks__WEBPACK_IMPORTED_MODULE_0__["default"].create(Object.assign({}, _this.task.getFieldsValue(), {
+            due_date: Object(_helpers_date__WEBPACK_IMPORTED_MODULE_1__["taskFullDueDate"])(_this.day),
+            status: false
+          })).then(function (response) {
+            _this.task.resetFields();
+          });
+        }
       });
     }
   }
@@ -57753,6 +57805,7 @@ var render = function() {
                 title: "Daily Tasks",
                 placement: "right",
                 closable: false,
+                width: 300,
                 visible: _vm.visible
               },
               on: {
@@ -57858,15 +57911,86 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "flex" },
     [
+      _c("a-checkbox", {
+        attrs: { defaultChecked: _vm.item.status },
+        on: { change: _vm.onChange }
+      }),
+      _vm._v(" "),
       _c(
-        "a-checkbox",
-        {
-          attrs: { defaultChecked: _vm.item.status },
-          on: { change: _vm.onChange }
-        },
-        [_vm._v(_vm._s(_vm.item.name))]
-      )
+        "span",
+        { staticClass: "flex-grow" },
+        [
+          _vm.isEdit
+            ? _c(
+                "a-form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.update($event)
+                    }
+                  }
+                },
+                [
+                  _c("a-input", {
+                    attrs: { autoFocus: "" },
+                    model: {
+                      value: _vm.item.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.item, "name", $$v)
+                      },
+                      expression: "item.name"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a-button",
+                    { attrs: { type: "primary", "html-type": "submit" } },
+                    [_vm._v("Save")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a-button",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.close($event)
+                        }
+                      }
+                    },
+                    [_vm._v("X")]
+                  )
+                ],
+                1
+              )
+            : _c(
+                "span",
+                {
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.open($event)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.item.name))]
+              )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("a-button", {
+        attrs: { type: "default", icon: "delete" },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.onDelete($event)
+          }
+        }
+      })
     ],
     1
   )
@@ -57926,7 +58050,7 @@ var render = function() {
   return _c(
     "a-form",
     {
-      attrs: { layout: "inline" },
+      attrs: { form: _vm.task, layout: "inline" },
       on: {
         submit: function($event) {
           $event.preventDefault()
@@ -57939,14 +58063,23 @@ var render = function() {
         "a-form-item",
         [
           _c("a-input", {
-            attrs: { autoFocus: "", placeholder: "Task Name" },
-            model: {
-              value: _vm.task.name,
-              callback: function($$v) {
-                _vm.$set(_vm.task, "name", $$v)
-              },
-              expression: "task.name"
-            }
+            directives: [
+              {
+                name: "decorator",
+                rawName: "v-decorator",
+                value: [
+                  "name",
+                  {
+                    rules: [
+                      { required: true, message: "Please input your task name" }
+                    ]
+                  }
+                ],
+                expression:
+                  "[\n        'name',\n        {rules: [{ required: true, message: 'Please input your task name' }]}\n      ]"
+              }
+            ],
+            attrs: { autoFocus: "", placeholder: "Task Name" }
           })
         ],
         1

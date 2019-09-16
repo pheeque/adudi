@@ -14,6 +14,7 @@
       placement="right"
       :closable="false"
       @close="visible = false"
+      :width="300"
       :visible="visible"
     >
       <TaskList :data="list" />
@@ -86,6 +87,11 @@
           this.list.splice(index, 1, Object.assign({}, payload, {
             status: 0
           }))
+        }
+      })
+      Bus.$on('task-deleted', payload => {
+        if (new Date(payload.due_date).getDate() === this.day) {
+          this.list = this.list.filter(item => item.id !== payload.id)
         }
       })
     },
