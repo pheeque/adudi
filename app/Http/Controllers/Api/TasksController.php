@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class TasksController extends Controller
 {
@@ -22,6 +23,8 @@ class TasksController extends Controller
             'name'     => $data['name'],
             'due_date' => $data['due_date'],
             'status'   => $data['status'],
+            'point'    => 1,
+            'type_id'  => Arr::random([1, 2]),
             'user_id'  => auth()->user()->id,
         ]);
 

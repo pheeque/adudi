@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
+use App\User;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateUsersTable extends Migration
 {
@@ -43,6 +44,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_read_announcements_at')->nullable();
             $table->timestamps();
         });
+
+        $this->seed();
     }
 
     /**
@@ -53,5 +56,13 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::drop('users');
+    }
+
+    private function seed()
+    {
+        factory(User::class)->create([
+            'name'  => 'Duy Nguyen',
+            'email' => 'duy@vietartisans.io',
+        ]);
     }
 }

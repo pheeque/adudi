@@ -17,7 +17,9 @@ class CreateTasksTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->date('due_date');
-            $table->boolean('status');
+            $table->unsignedInteger('point')->default(1);
+            $table->boolean('status')->default(false);
+            $table->unsignedInteger('type_id')->default(1);
             $table->unsignedInteger('user_id');
             $table->timestamps();
         });

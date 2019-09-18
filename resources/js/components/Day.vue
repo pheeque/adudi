@@ -14,7 +14,7 @@
       placement="right"
       :closable="false"
       @close="visible = false"
-      :width="300"
+      :width="320"
       :visible="visible"
     >
       <TaskList :data="list" />

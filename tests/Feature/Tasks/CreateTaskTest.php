@@ -35,7 +35,12 @@ class CreateTaskTest extends TestCase
             ->assertStatus(201);
         $this->assertDatabaseHas('tasks', $data);
         Event::assertDispatched(TaskCreated::class, function ($e) use ($data) {
-            $this->assertEquals($e->task->name, $data['name']);
+            $this->assertEquals($e->task->name, $data['name'], 'name does not match');
+            $this->assertEquals($e->task->due_date, $data['due_date'], 'due date does not match');
+            $this->assertEquals($e->task->point, $data['point'], 'point does not match');
+            $this->assertEquals($e->task->status, $data['status']);
+            $this->assertEquals($e->task->type_id, $data['type_id']);
+            $this->assertEquals($e->task->user_id, $data['user_id']);
             return true;
         });
     }
@@ -59,7 +64,7 @@ class CreateTaskTest extends TestCase
     public function due_date_must_be_a_date(): void
     {
         $data = factory(Task::class)->make([
-            'due_date' => 'Invalid Date'
+            'due_date' => 'Invalid Date',
         ])->toArray();
         $response = $this->actingAs(factory(User::class)->create())
             ->post(route('tasks.store'), $data);
@@ -72,7 +77,7 @@ class CreateTaskTest extends TestCase
     public function status_must_be_a_boolean(): void
     {
         $data = factory(Task::class)->make([
-            'status' => 'Invalid Status'
+            'status' => 'Invalid Status',
         ])->toArray();
         $response = $this->actingAs(factory(User::class)->create())
             ->post(route('tasks.store'), $data);
