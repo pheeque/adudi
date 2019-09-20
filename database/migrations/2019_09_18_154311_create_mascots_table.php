@@ -37,6 +37,6 @@ class CreateMascotsTable extends Migration
 
     private function seed()
     {
-        factory(Mascot::class)->create(['user_id' => 1]);
+        factory(Mascot::class)->create(['user_id' => 1, 'exp' => 0]);
     }
 }

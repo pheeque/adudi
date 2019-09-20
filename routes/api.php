@@ -29,6 +29,13 @@ Route::group([
     Route::get('/tasks/month/{month}', 'TasksOfMonthController')->name('tasks-of-month');
     Route::get('/tasks/day/{day}', 'TasksOfDayController')->name('tasks-of-day');
 
+    Route::group([
+        'as' => 'mascots.'
+    ], function () {
+        Route::get('/mascots/{id}', 'MascotController@show')->name('show');
+        Route::patch('/mascots/{id}', 'MascotController@update')->name('update');
+    });
+
 });
 
 Route::namespace ('Api')->group(function () {

@@ -29,6 +29,8 @@ import UsersIndex from './views/UsersIndex.vue'
 import UsersEdit from './views/UsersEdit.vue'
 import UsersCreate from './views/UsersCreate.vue'
 import Schedule from './views/Schedule.vue'
+import Progress from 'ant-design-vue/lib/progress'
+import 'ant-design-vue/lib/progress/style/css'
 
 const router = new VueRouter({
     mode: 'history',
@@ -84,6 +86,7 @@ Vue.use(Input)
 Vue.use(Button)
 Vue.use(Icon)
 Vue.use(Checkbox)
+Vue.use(Progress)
 
 import Echo from 'laravel-echo';
 

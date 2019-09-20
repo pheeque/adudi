@@ -14,7 +14,6 @@ class UsersTableSeeder extends Seeder
         factory(App\User::class)->create([
             'name'     => 'Duy Nguyen',
             'email'    => 'duy@vietartisans.io',
-            'password' => bcrypt('secret'),
         ]);
     }
 }

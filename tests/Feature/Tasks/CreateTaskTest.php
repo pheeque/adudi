@@ -29,7 +29,10 @@ class CreateTaskTest extends TestCase
         Event::fake();
         $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
-        $data = factory(Task::class)->make(['user_id' => $user->id])->toArray();
+        $data = factory(Task::class)->make([
+            'user_id' => $user->id,
+            'type_id' => 1,
+        ])->toArray();
         $this->actingAs($user)
             ->post(route('tasks.store'), $data)
             ->assertStatus(201);

@@ -11,7 +11,7 @@
     </div>
     <a-drawer
       title="Daily Tasks"
-      placement="right"
+      placement="left"
       :closable="false"
       @close="visible = false"
       :width="320"
@@ -36,8 +36,6 @@
   import { dayWithZero, taskFullDueDate } from '../helpers/date'
   import New from './tasks/New'
   import TaskList from './tasks/List'
-  import Progress from 'ant-design-vue/lib/progress'
-  import 'ant-design-vue/lib/progress/style/css'
   import Drawer from 'ant-design-vue/lib/drawer'
   import 'ant-design-vue/lib/drawer/style/css'
 
@@ -45,7 +43,6 @@
     components: {
       TaskList,
       New,
-      'a-progress': Progress,
       'a-drawer': Drawer,
     },
     props: ['day', 'tasks'],

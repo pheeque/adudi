@@ -12,6 +12,6 @@ class TasksTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Task::class, 100)->create(['user_id' => 1]);
+        factory(Task::class, 100)->create(['user_id' => 1, 'status' => 0]);
     }
 }
