@@ -28,22 +28,17 @@ class CreateTaskTest extends TestCase
     {
         Event::fake();
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
-        $data = factory(Task::class)->make([
-            'user_id' => $user->id,
-            'type_id' => 1,
-        ])->toArray();
-        $this->actingAs($user)
+        $data = [
+            'name'     => 'New task',
+            'due_date' => now(),
+            'status'   => 0,
+        ];
+        $this->actingAs(factory(User::class)->create())
             ->post(route('tasks.store'), $data)
             ->assertStatus(201);
         $this->assertDatabaseHas('tasks', $data);
-        Event::assertDispatched(TaskCreated::class, function ($e) use ($data) {
-            $this->assertEquals($e->task->name, $data['name'], 'name does not match');
-            $this->assertEquals($e->task->due_date, $data['due_date'], 'due date does not match');
-            $this->assertEquals($e->task->point, $data['point'], 'point does not match');
-            $this->assertEquals($e->task->status, $data['status']);
-            $this->assertEquals($e->task->type_id, $data['type_id']);
-            $this->assertEquals($e->task->user_id, $data['user_id']);
+        Event::assertDispatched(TaskCreated::class, function ($e) {
+            $this->assertInstanceOf(Task::class, $e->task);
             return true;
         });
     }
