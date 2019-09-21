@@ -2,10 +2,12 @@
 
 namespace Tests\Feature\Tasks;
 
+use App\Events\Tasks\TaskUnCompleted;
 use App\Task;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class UnCompleteTaskTest extends TestCase
@@ -31,6 +33,7 @@ class UnCompleteTaskTest extends TestCase
     /** @test */
     public function user_can_uncomplete_a_task(): void
     {
+        Event::fake();
         $task = factory(Task::class)->create(['status' => true]);
         $this->actingAs(factory(User::class)->create())
             ->patch(route('tasks.uncomplete', ['id' => $task->id]))
@@ -43,5 +46,9 @@ class UnCompleteTaskTest extends TestCase
             'id'     => $task->id,
             'status' => false,
         ]);
+        Event::assertDispatched(TaskUnCompleted::class, function ($e) {
+            $this->assertInstanceOf(Task::class, $e->task);
+            return true;
+        });
     }
 }

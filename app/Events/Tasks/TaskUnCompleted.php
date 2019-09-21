@@ -9,7 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskCompleted implements ShouldBroadcastNow
+class TaskUnCompleted implements ShouldBroadcastNow
 {
     public $task;
 

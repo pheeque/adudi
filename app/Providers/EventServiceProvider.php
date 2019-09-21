@@ -57,6 +57,10 @@ class EventServiceProvider extends ServiceProvider
         ],
     ];
 
+    protected $subscribe = [
+        'App\Listeners\Mascots\ReCalculateMascotExp',
+    ];
+
     /**
      * Register any other events for your application.
      *

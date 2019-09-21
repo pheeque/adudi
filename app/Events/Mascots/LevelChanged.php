@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Events\Tasks;
+namespace App\Events\Mascots;
 
-use App\Task;
+use App\Mascot;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskCompleted implements ShouldBroadcastNow
+class LevelChanged implements ShouldBroadcastNow
 {
-    public $task;
+    public $mascot;
 
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,10 +20,10 @@ class TaskCompleted implements ShouldBroadcastNow
      *
      * @return void
      */
-    public function __construct(Task $task)
+    public function __construct(Mascot $mascot)
     {
         //
-        $this->task = $task;
+        $this->mascot = $mascot;
     }
 
     /**
@@ -33,6 +33,6 @@ class TaskCompleted implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('task_' . $this->task->id);
+        return new Channel('mascot_' . $this->mascot->id);
     }
 }
