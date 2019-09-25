@@ -27,14 +27,5 @@
       MyCalendar,
       Mascot,
     },
-    data() {
-      return {
-        
-      }
-    },
-
-    methods: {
-      
-    },
   }
 </script>

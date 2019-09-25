@@ -1,23 +1,31 @@
 <template>
-  <div class="flex flex-row flex-wrap" v-if="tasks">
-    <day :day="day" v-for="day in daysOfMonth" :tasks="tasks" :key="day"/>
+  <div>
+    <calendar-header />
+    <div class="date-grid" v-if="tasks">
+      <day v-for="day in daysInMonth" :start-day="firstDayOfMonth" :day="day" :tasks="tasks" :key="day"/>
+    </div>
   </div>
 </template>
 
 <script>
   import Day from './Day'
+  import CalendarHeader from './CalendarHeader'
   import api from '../api/schedule'
-  import { forEach } from 'lodash'
 
   export default {
     components: {
       Day,
+      CalendarHeader,
     },
     props: ['month', 'year'],
     computed: {
-      daysOfMonth() {
+      daysInMonth() {
         return new Date(this.year, this.month, 0).getDate()
-      }
+      },
+      firstDayOfMonth() {
+        let date = new Date()
+        return new Date(this.year, this.month - 1, 1).getDay()
+      },
     },
     created() {
       this.getTasksOfMonth()

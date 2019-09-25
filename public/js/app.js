@@ -15374,6 +15374,31 @@ function mergeFn (a, b) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalendarHeader.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CalendarHeader.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Day.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Day.vue?vue&type=script&lang=js& ***!
@@ -15425,6 +15450,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -15439,7 +15470,7 @@ __webpack_require__.r(__webpack_exports__);
     New: _tasks_New__WEBPACK_IMPORTED_MODULE_4__["default"],
     'a-drawer': ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_6___default.a
   },
-  props: ['day', 'tasks'],
+  props: ['day', 'tasks', 'startDay'],
   computed: {
     isCurrentDay: function isCurrentDay() {
       return this.currentDay === this.day;
@@ -15535,9 +15566,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Day__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day */ "./resources/js/components/Day.vue");
-/* harmony import */ var _api_schedule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/schedule */ "./resources/js/api/schedule.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _CalendarHeader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CalendarHeader */ "./resources/js/components/CalendarHeader.vue");
+/* harmony import */ var _api_schedule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api/schedule */ "./resources/js/api/schedule.js");
+//
+//
+//
 //
 //
 //
@@ -15549,12 +15582,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Day: _Day__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Day: _Day__WEBPACK_IMPORTED_MODULE_0__["default"],
+    CalendarHeader: _CalendarHeader__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: ['month', 'year'],
   computed: {
-    daysOfMonth: function daysOfMonth() {
+    daysInMonth: function daysInMonth() {
       return new Date(this.year, this.month, 0).getDate();
+    },
+    firstDayOfMonth: function firstDayOfMonth() {
+      var date = new Date();
+      return new Date(this.year, this.month - 1, 1).getDay();
     }
   },
   created: function created() {
@@ -15569,7 +15607,7 @@ __webpack_require__.r(__webpack_exports__);
     getTasksOfMonth: function getTasksOfMonth() {
       var _this = this;
 
-      _api_schedule__WEBPACK_IMPORTED_MODULE_1__["default"].tasksOfMonth(this.month).then(function (response) {
+      _api_schedule__WEBPACK_IMPORTED_MODULE_2__["default"].tasksOfMonth(this.month).then(function (response) {
         _this.tasks = Object.assign([], response.data.data);
       });
     }
@@ -15956,11 +15994,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     MyCalendar: _components_MyCalendar__WEBPACK_IMPORTED_MODULE_0__["default"],
     Mascot: _components_mascot_Mascot__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  data: function data() {
-    return {};
-  },
-  methods: {}
+  }
 });
 
 /***/ }),
@@ -57698,6 +57732,37 @@ else {}
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalendarHeader.vue?vue&type=template&id=9454bdd4&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CalendarHeader.vue?vue&type=template&id=9454bdd4& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "day-of-week border-b pb-4" },
+    _vm._l(_vm.days, function(day) {
+      return _c("div", {}, [_vm._v(_vm._s(day))])
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Day.vue?vue&type=template&id=6c00ed81&":
 /*!******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Day.vue?vue&type=template&id=6c00ed81& ***!
@@ -57718,8 +57783,8 @@ var render = function() {
         "div",
         {
           staticClass:
-            "flex flex-col justify-between border rounded hover:shadow cursor-pointer w-32 h-32 m-2 p-2 relative",
-          class: { "border-2 border-blue-500": _vm.isCurrentDay },
+            "flex flex-col justify-between h-24 cursor-pointer py-2 relative",
+          style: { "grid-column": _vm.day === 1 ? _vm.startDay + 1 : "" },
           on: {
             click: function($event) {
               _vm.visible = true
@@ -57744,129 +57809,83 @@ var render = function() {
                 "absolute flex h-full items-center justify-center left-0 top-0 w-full"
             },
             [
-              _vm.list.length === 0
+              _vm.percentage() === 100
                 ? _c(
                     "svg",
                     {
-                      staticClass: "h-6",
+                      staticClass: "h-8",
                       attrs: {
-                        viewBox: "-11 0 470 470.001",
                         xmlns: "http://www.w3.org/2000/svg",
-                        "xmlns:xlink": "http://www.w3.org/1999/xlink"
+                        viewBox: "0 0 415.998 415.998"
                       }
                     },
                     [
-                      _c(
-                        "linearGradient",
-                        { attrs: { id: "a" } },
-                        [
-                          _c("stop", {
-                            attrs: { offset: ".322", "stop-color": "#a163f5" }
-                          }),
-                          _c("stop", {
-                            attrs: { offset: ".466", "stop-color": "#b074ee" }
-                          }),
-                          _c("stop", {
-                            attrs: { offset: ".752", "stop-color": "#d8a1dd" }
-                          }),
-                          _c("stop", {
-                            attrs: { offset: ".898", "stop-color": "#efbad3" }
-                          })
-                        ],
-                        1
-                      ),
-                      _c("linearGradient", {
-                        attrs: {
-                          id: "b",
-                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
-                          gradientUnits: "userSpaceOnUse",
-                          x1: "369.8",
-                          x2: "369.8",
-                          "xlink:href": "#a",
-                          y1: "18",
-                          y2: "493.052"
-                        }
+                      _c("circle", {
+                        attrs: { cx: "208.239", cy: "48", r: "12" }
                       }),
-                      _c("linearGradient", {
+                      _c("path", {
                         attrs: {
-                          id: "c",
-                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
-                          gradientUnits: "userSpaceOnUse",
-                          x1: "201.2",
-                          x2: "201.2",
-                          "xlink:href": "#a",
-                          y1: "18",
-                          y2: "493.052"
-                        }
-                      }),
-                      _c("linearGradient", {
-                        attrs: {
-                          id: "d",
-                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
-                          gradientUnits: "userSpaceOnUse",
-                          x1: "170.1",
-                          x2: "170.1",
-                          "xlink:href": "#a",
-                          y1: "18",
-                          y2: "493.052"
-                        }
-                      }),
-                      _c("linearGradient", {
-                        attrs: {
-                          id: "e",
-                          gradientTransform: "matrix(1 0 0 -1 -32.1 493)",
-                          gradientUnits: "userSpaceOnUse",
-                          x1: "255.9",
-                          x2: "255.9",
-                          "xlink:href": "#a",
-                          y1: "18",
-                          y2: "493.052"
+                          d:
+                            "M367.998 95.999c0-17.673-14.326-32-31.999-32h-44.424c-5.926-6.583-13.538-11.62-22.284-14.136-7.367-2.118-13.037-7.788-15.156-15.155C248.37 14.663 229.897 0 207.998 0c-21.898 0-40.37 14.663-46.134 34.706-2.122 7.376-7.806 13.039-15.182 15.164-8.736 2.518-16.341 7.55-22.262 14.129H79.999c-17.674 0-32 14.327-32 32v287.999c0 17.673 14.326 32 32 32h256c17.674 0 32-14.327 32-32l-.001-287.999zM128 95.742c.11-14.066 9.614-26.606 23.112-30.496 12.71-3.662 22.477-13.426 26.127-26.116C181.157 25.51 193.805 16 207.998 16c14.194 0 26.842 9.51 30.758 23.13 3.652 12.698 13.413 22.459 26.111 26.11 13.618 3.917 23.13 16.566 23.13 30.758v16H128V95.742zm207.999 304.256h-256c-8.823 0-16-7.178-16-16V95.999c0-8.822 7.177-16 16-16h34.742a47.85 47.85 0 0 0-2.74 15.617v32.383h191.998v-32c0-5.615-.992-10.991-2.764-16h34.764c8.822 0 15.999 7.178 15.999 16 0 45.743-.001 260.254.002 287.999-.001 8.822-7.178 16-16.001 16z"
                         }
                       }),
                       _c("path", {
                         attrs: {
                           d:
-                            "M390.5 350h-42.8v-42.8c0-5.524-4.477-10-10-10-5.524 0-10 4.476-10 10V350h-42.802c-5.52 0-10 4.477-10 10s4.48 10 10 10H327.7v42.8c0 5.524 4.477 10 10 10 5.524 0 10-4.476 10-10V370H390.5c5.523 0 10-4.477 10-10s-4.477-10-10-10zm0 0",
-                          fill: "url(#b)"
-                        }
-                      }),
-                      _c("path", {
-                        attrs: {
-                          d:
-                            "M246.602 209.102h-155c-5.524 0-10 4.476-10 10 0 5.52 4.476 10 10 10h155c5.523 0 10-4.48 10-10 0-5.524-4.477-10-10-10zm0 0",
-                          fill: "url(#c)"
-                        }
-                      }),
-                      _c("path", {
-                        attrs: {
-                          d:
-                            "M184.398 274.102H91.602c-5.524 0-10 4.476-10 10 0 5.52 4.476 10 10 10h92.796c5.524 0 10-4.48 10-10 0-5.524-4.476-10-10-10zm0 0",
-                          fill: "url(#d)"
-                        }
-                      }),
-                      _c("path", {
-                        attrs: {
-                          d:
-                            "M358 251.898V79.102c-.008-27.614-22.39-49.993-50-50h-41V10c0-5.523-4.477-10-10-10s-10 4.477-10 10v19.102H111V10c0-5.523-4.477-10-10-10S91 4.477 91 10v19.102H50c-27.61.007-49.988 22.386-50 50V350c.012 27.61 22.39 49.988 50 50h185.102c19.242 49.281 70.84 77.887 122.832 68.102 51.992-9.786 89.66-55.196 89.668-108.102.097-53.7-38.602-98.5-89.602-108.102zM20.102 79.102c.046-16.551 13.449-29.954 30-30h41v19.097c0 5.524 4.476 10 10 10 5.523 0 10-4.476 10-10V49.102h136v19.097c0 5.524 4.476 10 10 10 5.523 0 10-4.476 10-10V49.102h41c16.546.046 29.949 13.449 30 30V103.3h-318zM229.5 380H50.102c-16.551-.047-29.954-13.453-30-30V123.2H338V250h-.3a110.164 110.164 0 0 0-108.2 130zm108.2 70c-49.704 0-90-40.293-90-90s40.296-90 90-90c49.706 0 90 40.293 90 90-.075 49.676-40.325 89.926-90 90zm0 0",
-                          fill: "url(#e)"
+                            "M274.51 194.508l-96.167 96.166-42.388-42.388-11.313 11.314 53.701 53.702 107.48-107.48z"
                         }
                       })
+                    ]
+                  )
+                : _c(
+                    "span",
+                    [
+                      _vm.list.length === 0
+                        ? _c(
+                            "svg",
+                            {
+                              staticClass: "h-6",
+                              attrs: {
+                                xmlns: "http://www.w3.org/2000/svg",
+                                viewBox: "0 0 60 60"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M12.5 24h25a1 1 0 0 0 0-2h-25a1 1 0 0 0 0 2zM12.5 16h10a1 1 0 0 0 0-2h-10a1 1 0 0 0 0 2zM12.5 32h25a1 1 0 0 0 0-2h-25a1 1 0 0 0 0 2zM29.5 38h-17a1 1 0 0 0 0 2h17a1 1 0 0 0 0-2zM26.5 46h-14a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2z"
+                                }
+                              }),
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M48.5 34.363V14.586L33.914 0H1.5v60h44c7.168 0 13-5.832 13-13 0-6.134-4.276-11.277-10-12.637zm-14-30.949L45.086 14H34.5V3.414zM38.578 58H3.5V2h29v14h14v18.044a11.818 11.818 0 0 0-1-.044c-7.168 0-13 5.832-13 13a13.233 13.233 0 0 0 .087 1.455c.043.382.098.76.173 1.131.009.044.021.087.03.131.072.338.159.67.257.998.025.082.048.165.074.246.113.352.239.698.38 1.037.027.064.057.126.084.189.129.296.269.585.419.869.036.068.07.137.107.205.175.317.363.626.564.927.046.069.094.135.141.203.183.264.375.521.576.77.038.047.074.096.113.143.231.278.475.544.728.801.062.063.125.124.189.186.245.239.496.471.759.69.023.02.045.041.069.06a13.226 13.226 0 0 0 1.1.807c.077.049.151.103.228.152zm6.922 0c-6.065 0-11-4.935-11-11s4.935-11 11-11c.312 0 .62.021.926.047.291.028.592.066.909.119l.443.074C52.753 37.293 56.5 41.716 56.5 47c0 6.065-4.935 11-11 11z"
+                                }
+                              }),
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M51.5 46h-5v-5a1 1 0 0 0-2 0v5h-5a1 1 0 0 0 0 2h5v5a1 1 0 0 0 2 0v-5h5a1 1 0 0 0 0-2z"
+                                }
+                              })
+                            ]
+                          )
+                        : _c("a-progress", {
+                            attrs: {
+                              type: "circle",
+                              strokeWidth: 10,
+                              percent: _vm.percentage(),
+                              width: 40,
+                              format: function(percent) {
+                                return percent === 100 ? "Done" : percent + "%"
+                              }
+                            }
+                          })
                     ],
                     1
                   )
-                : _c("a-progress", {
-                    attrs: {
-                      type: "circle",
-                      strokeWidth: 10,
-                      percent: _vm.percentage(),
-                      width: 60,
-                      format: function(percent) {
-                        return percent === 100 ? "Done" : percent + "%"
-                      }
-                    }
-                  })
-            ],
-            1
+            ]
           ),
           _vm._v(" "),
           _c(
@@ -57947,16 +57966,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.tasks
-    ? _c(
-        "div",
-        { staticClass: "flex flex-row flex-wrap" },
-        _vm._l(_vm.daysOfMonth, function(day) {
-          return _c("day", { key: day, attrs: { day: day, tasks: _vm.tasks } })
-        }),
-        1
-      )
-    : _vm._e()
+  return _c(
+    "div",
+    [
+      _c("calendar-header"),
+      _vm._v(" "),
+      _vm.tasks
+        ? _c(
+            "div",
+            { staticClass: "date-grid" },
+            _vm._l(_vm.daysInMonth, function(day) {
+              return _c("day", {
+                key: day,
+                attrs: {
+                  "start-day": _vm.firstDayOfMonth,
+                  day: day,
+                  tasks: _vm.tasks
+                }
+              })
+            }),
+            1
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -74604,6 +74638,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ __webpack_exports__["default"] = (new vue__WEBPACK_IMPORTED_MODULE_0___default.a());
+
+/***/ }),
+
+/***/ "./resources/js/components/CalendarHeader.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/CalendarHeader.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CalendarHeader_vue_vue_type_template_id_9454bdd4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CalendarHeader.vue?vue&type=template&id=9454bdd4& */ "./resources/js/components/CalendarHeader.vue?vue&type=template&id=9454bdd4&");
+/* harmony import */ var _CalendarHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CalendarHeader.vue?vue&type=script&lang=js& */ "./resources/js/components/CalendarHeader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CalendarHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CalendarHeader_vue_vue_type_template_id_9454bdd4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CalendarHeader_vue_vue_type_template_id_9454bdd4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CalendarHeader.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CalendarHeader.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/CalendarHeader.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CalendarHeader.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalendarHeader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarHeader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CalendarHeader.vue?vue&type=template&id=9454bdd4&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/CalendarHeader.vue?vue&type=template&id=9454bdd4& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarHeader_vue_vue_type_template_id_9454bdd4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CalendarHeader.vue?vue&type=template&id=9454bdd4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CalendarHeader.vue?vue&type=template&id=9454bdd4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarHeader_vue_vue_type_template_id_9454bdd4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarHeader_vue_vue_type_template_id_9454bdd4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
