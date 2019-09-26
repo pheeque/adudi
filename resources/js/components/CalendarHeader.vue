@@ -1,6 +1,6 @@
 <template>
-  <div class="day-of-week border-b pb-4">
-    <div class="" v-for="day in days">{{ day }}</div>
+  <div class="day-of-week border-b pb-2">
+    <div class="font-semibold" v-for="day in days">{{ day }}</div>
   </div>
 </template>
 

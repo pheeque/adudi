@@ -15410,15 +15410,15 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_schedule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/schedule */ "./resources/js/api/schedule.js");
 /* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../bus */ "./resources/js/bus.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _helpers_date__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helpers/date */ "./resources/js/helpers/date.js");
-/* harmony import */ var _tasks_New__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tasks/New */ "./resources/js/components/tasks/New.vue");
-/* harmony import */ var _tasks_List__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tasks/List */ "./resources/js/components/tasks/List.vue");
-/* harmony import */ var ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ant-design-vue/lib/drawer */ "./node_modules/ant-design-vue/lib/drawer/index.js");
-/* harmony import */ var ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var ant_design_vue_lib_drawer_style_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ant-design-vue/lib/drawer/style/css */ "./node_modules/ant-design-vue/lib/drawer/style/css.js");
-/* harmony import */ var ant_design_vue_lib_drawer_style_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_drawer_style_css__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _tasks_New__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tasks/New */ "./resources/js/components/tasks/New.vue");
+/* harmony import */ var _tasks_List__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tasks/List */ "./resources/js/components/tasks/List.vue");
+/* harmony import */ var ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ant-design-vue/lib/drawer */ "./node_modules/ant-design-vue/lib/drawer/index.js");
+/* harmony import */ var ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var ant_design_vue_lib_drawer_style_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ant-design-vue/lib/drawer/style/css */ "./node_modules/ant-design-vue/lib/drawer/style/css.js");
+/* harmony import */ var ant_design_vue_lib_drawer_style_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(ant_design_vue_lib_drawer_style_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _helpers_date__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../helpers/date */ "./resources/js/helpers/date.js");
 //
 //
 //
@@ -15466,9 +15466,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    TaskList: _tasks_List__WEBPACK_IMPORTED_MODULE_5__["default"],
-    New: _tasks_New__WEBPACK_IMPORTED_MODULE_4__["default"],
-    'a-drawer': ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_6___default.a
+    TaskList: _tasks_List__WEBPACK_IMPORTED_MODULE_3__["default"],
+    New: _tasks_New__WEBPACK_IMPORTED_MODULE_2__["default"],
+    'a-drawer': ant_design_vue_lib_drawer__WEBPACK_IMPORTED_MODULE_4___default.a
   },
   props: ['day', 'tasks', 'startDay'],
   computed: {
@@ -15483,6 +15483,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     isNextDays: function isNextDays() {
       return this.day > this.currentDay;
+    },
+    progressColor: function progressColor() {
+      return this.passedDay ? '#cccccc' : '#bbded6';
     }
   },
   data: function data() {
@@ -15498,7 +15501,7 @@ __webpack_require__.r(__webpack_exports__);
     this.listen();
     this.listOfDay();
     _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('complete', function (payload) {
-      var index = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["findIndex"])(_this.list, function (item) {
+      var index = Object(lodash__WEBPACK_IMPORTED_MODULE_6__["findIndex"])(_this.list, function (item) {
         return item.id === payload.id;
       });
 
@@ -15509,7 +15512,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
     _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('uncomplete', function (payload) {
-      var index = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["findIndex"])(_this.list, function (item) {
+      var index = Object(lodash__WEBPACK_IMPORTED_MODULE_6__["findIndex"])(_this.list, function (item) {
         return item.id === payload.id;
       });
 
@@ -15528,7 +15531,7 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    dayWithZero: _helpers_date__WEBPACK_IMPORTED_MODULE_3__["dayWithZero"],
+    dayWithZero: _helpers_date__WEBPACK_IMPORTED_MODULE_7__["dayWithZero"],
     listOfDay: function listOfDay() {
       var _this2 = this;
 
@@ -15539,7 +15542,7 @@ __webpack_require__.r(__webpack_exports__);
     listen: function listen() {
       var _this3 = this;
 
-      Echo.channel(Object(_helpers_date__WEBPACK_IMPORTED_MODULE_3__["taskFullDueDate"])(this.day)).listen('Tasks.TaskCreated', function (response) {
+      Echo.channel(Object(_helpers_date__WEBPACK_IMPORTED_MODULE_7__["taskFullDueDate"])(this.day)).listen('Tasks.TaskCreated', function (response) {
         _this3.list = _this3.list.concat([response.task]);
       });
     },
@@ -15866,9 +15869,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -57749,9 +57749,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "day-of-week border-b pb-4" },
+    { staticClass: "day-of-week border-b pb-2" },
     _vm._l(_vm.days, function(day) {
-      return _c("div", {}, [_vm._v(_vm._s(day))])
+      return _c("div", { staticClass: "font-semibold" }, [_vm._v(_vm._s(day))])
     }),
     0
   )
@@ -57797,7 +57797,7 @@ var render = function() {
             {
               staticClass:
                 "w-6 h-6 flex justify-center itens-center rounded-full text-xs leading-loose",
-              class: { "bg-blue-500 text-white": _vm.isCurrentDay }
+              class: { "bg-acyan text-white": _vm.isCurrentDay }
             },
             [_vm._v("\n    " + _vm._s(_vm.dayWithZero(_vm.day)) + "\n  ")]
           ),
@@ -57874,6 +57874,7 @@ var render = function() {
                         : _c("a-progress", {
                             attrs: {
                               type: "circle",
+                              strokeColor: _vm.progressColor,
                               strokeWidth: 10,
                               percent: _vm.percentage(),
                               width: 40,
@@ -58686,27 +58687,6 @@ var render = function() {
     _c(
       "p",
       [
-        _c(
-          "router-link",
-          { staticClass: "text-blue-500", attrs: { to: { name: "home" } } },
-          [_vm._v("Home")]
-        ),
-        _vm._v(" |\n    "),
-        _c(
-          "router-link",
-          { staticClass: "text-blue-500", attrs: { to: { name: "hello" } } },
-          [_vm._v("Hello World")]
-        ),
-        _vm._v(" |\n    "),
-        _c(
-          "router-link",
-          {
-            staticClass: "text-blue-500",
-            attrs: { to: { name: "users.index" } }
-          },
-          [_vm._v("Users")]
-        ),
-        _vm._v(" |\n    "),
         _c(
           "router-link",
           { staticClass: "text-blue-500", attrs: { to: { name: "schedule" } } },
