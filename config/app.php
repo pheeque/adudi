@@ -169,6 +169,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\RouteServiceProvider::class,
         Laravel\Spark\Providers\SparkServiceProvider::class,
         App\Providers\SparkServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
@@ -176,7 +177,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
 
         /**
          * Custom service providers

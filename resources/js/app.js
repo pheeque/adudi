@@ -17,6 +17,9 @@
 
 // require('./components/bootstrap');
 
+import axios from 'axios'
+window.axios = axios
+
 import Vue from 'vue'
 import router from './router/router'
 import App from './views/App.vue'

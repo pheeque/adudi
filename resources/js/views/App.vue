@@ -1,6 +1,9 @@
 <template>
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl">Adudi</h1>
+    <div class="flex justify-between">
+      <h1 class="text-4xl">Adudi</h1>
+      <button @click="logout">Logout</button>
+    </div>
     <div>
       <router-link class="" :to="{ name: 'schedule' }">Schedule</router-link>
     </div>
@@ -11,5 +14,14 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    methods: {
+      logout() {
+        axios.post('/logout')
+          .then(response => {
+            this.$router.push({ name: 'home' })
+          })
+      }
+    }
+  }
 </script>

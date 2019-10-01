@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -14,5 +16,7 @@
 // Route::get('/', 'WelcomeController@show');
 
 // Route::get('/home', 'HomeController@show');
+
+Route::post('/logout', 'Auth\LoginController@logout')->middleware('auth');
 
 Route::get('/{any}', 'SpaController@index')->where('any', '.*');
