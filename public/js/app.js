@@ -16349,10 +16349,25 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      axios.post('/login', this.form).then(function (response) {
-        _this.$router.push({
-          name: 'schedule'
+      axios.post('/oauth/token', {
+        'grant_type': 'password',
+        'client_id': 5,
+        'client_secret': 'ddva1d0NnMKOPYMLwPkUB4kyvDu2GnzjyLOp5vCL',
+        'username': this.form.email,
+        'password': this.form.password,
+        'scope': ''
+      }).then(function (response) {
+        _this.setSession(response.data).then(function () {
+          _this.$router.push({
+            name: 'schedule'
+          });
         });
+      });
+    },
+    setSession: function setSession(oauth) {
+      localStorage.setItem('oauth', JSON.stringify(oauth));
+      return new Promise(function (resolve, reject) {
+        resolve(true);
       });
     }
   }
@@ -58890,18 +58905,31 @@ var render = function() {
     _c("div", { staticClass: "flex justify-between" }, [
       _c("h1", { staticClass: "text-4xl" }, [_vm._v("Adudi")]),
       _vm._v(" "),
-      _c("button", { on: { click: _vm.logout } }, [_vm._v("Logout")])
+      _c(
+        "div",
+        { staticClass: "flex items-center" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "text-gray-700 hover:text-gray-500",
+              attrs: { to: { name: "schedule" } }
+            },
+            [_vm._v("Schedule")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "text-gray-700 hover:text-gray-500 ml-4",
+              on: { click: _vm.logout }
+            },
+            [_vm._v("Logout")]
+          )
+        ],
+        1
+      )
     ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      [
-        _c("router-link", { attrs: { to: { name: "schedule" } } }, [
-          _vm._v("Schedule")
-        ])
-      ],
-      1
-    ),
     _vm._v(" "),
     _c("div", { staticClass: "mt-8" }, [_c("router-view")], 1)
   ])
@@ -74641,12 +74669,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
+var oauth = JSON.parse(localStorage.getItem('oauth'));
+var token = oauth === null ? '' : oauth.access_token;
+var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: '/api',
+  headers: {
+    'Authorization': "bearer ".concat(token)
+  }
+});
 /* harmony default export */ __webpack_exports__["default"] = ({
   find: function find(id) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/mascots/".concat(id));
+    return client.get("/mascots/".concat(id));
   },
   update: function update(id, data) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/api/mascots/".concat(id), data);
+    return client.patch("/mascots/".concat(id), data);
   }
 });
 
@@ -74664,12 +74700,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
+var oauth = JSON.parse(localStorage.getItem('oauth'));
+var token = oauth === null ? '' : oauth.access_token;
+var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: '/api',
+  headers: {
+    'Authorization': "bearer ".concat(token)
+  }
+});
 /* harmony default export */ __webpack_exports__["default"] = ({
   tasksOfMonth: function tasksOfMonth(month) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks/month/".concat(month));
+    return client.get("/tasks/month/".concat(month));
   },
   tasksOfDay: function tasksOfDay(day) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks/day/".concat(day));
+    return client.get("/tasks/day/".concat(day));
   }
 });
 
@@ -74687,27 +74731,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
+var oauth = JSON.parse(localStorage.getItem('oauth'));
+var token = oauth === null ? '' : oauth.access_token;
+var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: '/api',
+  headers: {
+    'Authorization': "bearer ".concat(token)
+  }
+});
 /* harmony default export */ __webpack_exports__["default"] = ({
   create: function create(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/tasks', data);
+    return client.post('/tasks', data);
   },
   all: function all() {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/tasks');
+    return client.get('/tasks');
   },
   find: function find(id) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks/".concat(id));
+    return client.get("/tasks/".concat(id));
   },
   update: function update(id, data) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/api/tasks/".concat(id), data);
+    return client.patch("/tasks/".concat(id), data);
   },
   "delete": function _delete(id, data) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/api/tasks/".concat(id));
+    return client["delete"]("/tasks/".concat(id));
   },
   complete: function complete(id) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/api/tasks/".concat(id, "/complete"));
+    return client.patch("/tasks/".concat(id, "/complete"));
   },
   uncomplete: function uncomplete(id) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("/api/tasks/".concat(id, "/uncomplete"));
+    return client.patch("/tasks/".concat(id, "/uncomplete"));
   }
 });
 
@@ -75431,50 +75483,25 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       guest: true
     }
   }]
-}); // router.beforeEach((to, from, next) => {
-//   if (to.matched.some(route => route.meta.requiresAuth)) {
-//     if (localStorage.getItem('token') === null) {
-//       next({
-//         path: '/sign-in',
-//         params: { nextUrl: to.fullPath }
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next()
-//   }
-//     if(to.matched.some(record => record.meta.requiresAuth)) {
-//         if (localStorage.getItem('jwt') == null) {
-//             next({
-//                 path: '/login',
-//                 params: { nextUrl: to.fullPath }
-//             })
-//         } else {
-//             let user = JSON.parse(localStorage.getItem('user'))
-//             if(to.matched.some(record => record.meta.is_admin)) {
-//                 if(user.is_admin == 1){
-//                     next()
-//                 }
-//                 else{
-//                     next({ name: 'userboard'})
-//                 }
-//             }else {
-//                 next()
-//             }
-//         }
-//     } else if(to.matched.some(record => record.meta.guest)) {
-//         if(localStorage.getItem('jwt') == null){
-//             next()
-//         }
-//         else{
-//             next({ name: 'userboard'})
-//         }
-//     }else {
-//         next() 
-//     }
-// })
-
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (route) {
+    return route.meta.requiresAuth;
+  })) {
+    if (localStorage.getItem('oauth') === null) {
+      next({
+        path: '/login',
+        params: {
+          nextUrl: to.fullPath
+        }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),

@@ -1,25 +1,36 @@
 import axios from 'axios'
 
+const oauth = JSON.parse(localStorage.getItem('oauth'))
+
+const token = oauth === null ? '' : oauth.access_token
+
+const client = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Authorization': `bearer ${token}`,
+  }
+})
+
 export default {
   create(data) {
-    return axios.post('/api/tasks', data)
+    return client.post('/tasks', data)
   },
   all() {
-    return axios.get('/api/tasks')
+    return client.get('/tasks')
   },
   find(id) {
-    return axios.get(`/api/tasks/${id}`)
+    return client.get(`/tasks/${id}`)
   },
   update(id, data) {
-    return axios.patch(`/api/tasks/${id}`, data)
+    return client.patch(`/tasks/${id}`, data)
   },
   delete(id, data) {
-    return axios.delete(`/api/tasks/${id}`)
+    return client.delete(`/tasks/${id}`)
   },
   complete(id) {
-    return axios.patch(`/api/tasks/${id}/complete`)
+    return client.patch(`/tasks/${id}/complete`)
   },
   uncomplete(id) {
-    return axios.patch(`/api/tasks/${id}/uncomplete`)
+    return client.patch(`/tasks/${id}/uncomplete`)
   },
 }

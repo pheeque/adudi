@@ -40,10 +40,26 @@
 
     methods: {
       login() {
-        axios.post('/login', this.form)
+        axios.post('/oauth/token', {
+          'grant_type': 'password',
+          'client_id': 5,
+          'client_secret': 'ddva1d0NnMKOPYMLwPkUB4kyvDu2GnzjyLOp5vCL',
+          'username': this.form.email,
+          'password': this.form.password,
+          'scope': '',
+        })
           .then(response => {
-            this.$router.push({ name: 'schedule' })
+            this.setSession(response.data)
+              .then(() => {
+                this.$router.push({ name: 'schedule' })
+              })
           })
+      },
+      setSession(oauth) {
+        localStorage.setItem('oauth', JSON.stringify(oauth))
+        return new Promise((resolve, reject) => {
+          resolve(true)
+        })
       }
     },
   }

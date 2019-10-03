@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Auth;
 
 // Route::get('/home', 'HomeController@show');
 
-Route::post('/logout', 'Auth\LoginController@logout')->middleware('auth');
+// Route::post('/logout', 'Auth\LoginController@logout')->middleware('auth');
 
 Route::get('/{any}', 'SpaController@index')->where('any', '.*');
