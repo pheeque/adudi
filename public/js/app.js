@@ -15888,12 +15888,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
-      var _this = this;
-
-      axios.post('/logout').then(function (response) {
-        _this.$router.push({
-          name: 'home'
-        });
+      localStorage.removeItem('oauth');
+      this.$router.push({
+        name: 'home'
       });
     }
   }
@@ -16357,17 +16354,12 @@ __webpack_require__.r(__webpack_exports__);
         'password': this.form.password,
         'scope': ''
       }).then(function (response) {
-        _this.setSession(response.data).then(function () {
+        localStorage.setItem('oauth', JSON.stringify(response.data));
+        setTimeout(function () {
           _this.$router.push({
             name: 'schedule'
           });
-        });
-      });
-    },
-    setSession: function setSession(oauth) {
-      localStorage.setItem('oauth', JSON.stringify(oauth));
-      return new Promise(function (resolve, reject) {
-        resolve(true);
+        }, 1000);
       });
     }
   }
@@ -74657,9 +74649,9 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/js/api/mascot.js":
+/***/ "./resources/js/api/client.js":
 /*!************************************!*\
-  !*** ./resources/js/api/mascot.js ***!
+  !*** ./resources/js/api/client.js ***!
   \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -74674,15 +74666,31 @@ var token = oauth === null ? '' : oauth.access_token;
 var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: '/api',
   headers: {
-    'Authorization': "bearer ".concat(token)
+    'Authorization': "Bearer ".concat(token)
   }
 });
+/* harmony default export */ __webpack_exports__["default"] = (client);
+
+/***/ }),
+
+/***/ "./resources/js/api/mascot.js":
+/*!************************************!*\
+  !*** ./resources/js/api/mascot.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./client */ "./resources/js/api/client.js");
+
+var path = '/mascots';
 /* harmony default export */ __webpack_exports__["default"] = ({
   find: function find(id) {
-    return client.get("/mascots/".concat(id));
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(path, "/").concat(id));
   },
   update: function update(id, data) {
-    return client.patch("/mascots/".concat(id), data);
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].patch("".concat(path, "/").concat(id), data);
   }
 });
 
@@ -74697,23 +74705,15 @@ var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./client */ "./resources/js/api/client.js");
 
-var oauth = JSON.parse(localStorage.getItem('oauth'));
-var token = oauth === null ? '' : oauth.access_token;
-var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: '/api',
-  headers: {
-    'Authorization': "bearer ".concat(token)
-  }
-});
+var path = '/tasks';
 /* harmony default export */ __webpack_exports__["default"] = ({
   tasksOfMonth: function tasksOfMonth(month) {
-    return client.get("/tasks/month/".concat(month));
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(path, "/month/").concat(month));
   },
   tasksOfDay: function tasksOfDay(day) {
-    return client.get("/tasks/day/".concat(day));
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(path, "/day/").concat(day));
   }
 });
 
@@ -74728,38 +74728,30 @@ var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./client */ "./resources/js/api/client.js");
 
-var oauth = JSON.parse(localStorage.getItem('oauth'));
-var token = oauth === null ? '' : oauth.access_token;
-var client = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: '/api',
-  headers: {
-    'Authorization': "bearer ".concat(token)
-  }
-});
+var path = '/tasks';
 /* harmony default export */ __webpack_exports__["default"] = ({
   create: function create(data) {
-    return client.post('/tasks', data);
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].post("".concat(path), data);
   },
   all: function all() {
-    return client.get('/tasks');
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(path));
   },
   find: function find(id) {
-    return client.get("/tasks/".concat(id));
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].get("".concat(path, "/").concat(id));
   },
   update: function update(id, data) {
-    return client.patch("/tasks/".concat(id), data);
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].patch("".concat(path, "/").concat(id), data);
   },
   "delete": function _delete(id, data) {
-    return client["delete"]("/tasks/".concat(id));
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("".concat(path, "/").concat(id));
   },
   complete: function complete(id) {
-    return client.patch("/tasks/".concat(id, "/complete"));
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].patch("".concat(path, "/").concat(id, "/complete"));
   },
   uncomplete: function uncomplete(id) {
-    return client.patch("/tasks/".concat(id, "/uncomplete"));
+    return _client__WEBPACK_IMPORTED_MODULE_0__["default"].patch("".concat(path, "/").concat(id, "/uncomplete"));
   }
 });
 
@@ -75488,7 +75480,7 @@ router.beforeEach(function (to, from, next) {
   if (to.matched.some(function (route) {
     return route.meta.requiresAuth;
   })) {
-    if (localStorage.getItem('oauth') === null) {
+    if (JSON.parse(localStorage.getItem('oauth')) === null) {
       next({
         path: '/login',
         params: {

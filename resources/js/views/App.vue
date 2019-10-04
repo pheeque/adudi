@@ -17,10 +17,8 @@
   export default {
     methods: {
       logout() {
-        axios.post('/logout')
-          .then(response => {
-            this.$router.push({ name: 'home' })
-          })
+        localStorage.removeItem('oauth')
+        this.$router.push({ name: 'home' })
       }
     }
   }

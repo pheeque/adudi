@@ -1,21 +1,12 @@
-import axios from 'axios'
+import client from './client'
 
-const oauth = JSON.parse(localStorage.getItem('oauth'))
-
-const token = oauth === null ? '' : oauth.access_token
-
-const client = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Authorization': `bearer ${token}`,
-  }
-})
+const path = '/mascots'
 
 export default {
   find(id) {
-    return client.get(`/mascots/${id}`)
+    return client.get(`${path}/${id}`)
   },
   update(id, data) {
-    return client.patch(`/mascots/${id}`, data)
+    return client.patch(`${path}/${id}`, data)
   },
 }

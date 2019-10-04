@@ -15,7 +15,7 @@
         <input 
           class="w-full py-2 border-b focus:outline-none focus:border-b-2 focus:border-ared" 
           type="password"
-           v-model="form.password"/>
+          v-model="form.password"/>
       </div>
       <div class="mt-4 text-right">
         <button 
@@ -49,18 +49,12 @@
           'scope': '',
         })
           .then(response => {
-            this.setSession(response.data)
-              .then(() => {
-                this.$router.push({ name: 'schedule' })
-              })
+            localStorage.setItem('oauth', JSON.stringify(response.data))
+            setTimeout(() => {
+              this.$router.push({ name: 'schedule' })
+            }, 1000)
           })
       },
-      setSession(oauth) {
-        localStorage.setItem('oauth', JSON.stringify(oauth))
-        return new Promise((resolve, reject) => {
-          resolve(true)
-        })
-      }
     },
   }
 </script>

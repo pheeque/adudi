@@ -1,21 +1,12 @@
-import axios from 'axios'
+import client from './client'
 
-const oauth = JSON.parse(localStorage.getItem('oauth'))
-
-const token = oauth === null ? '' : oauth.access_token
-
-const client = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Authorization': `bearer ${token}`,
-  }
-})
+const path = '/tasks'
 
 export default {
   tasksOfMonth(month) {
-    return client.get(`/tasks/month/${month}`)
+    return client.get(`${path}/month/${month}`)
   },
   tasksOfDay(day) {
-    return client.get(`/tasks/day/${day}`)
+    return client.get(`${path}/day/${day}`)
   },
 }

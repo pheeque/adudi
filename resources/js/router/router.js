@@ -56,7 +56,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(route => route.meta.requiresAuth)) {
-    if (localStorage.getItem('oauth') === null) {
+    if (JSON.parse(localStorage.getItem('oauth')) === null) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }
